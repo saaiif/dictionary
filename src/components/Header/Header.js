@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -6,20 +6,62 @@ import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import { connect } from "react-redux";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import MicIcon from "@material-ui/icons/Mic";
+import MicOffIcon from "@material-ui/icons/MicOff";
 
 import { useStyles } from "./Style";
 import { fetchInfo } from "../../Redux/actionTypes";
 import { Button } from "@material-ui/core";
+import Dictaphone from "./Voice";
 
 function Header({ fetchInfo }) {
   const classes = useStyles();
   const [word, setWord] = useState("");
+  const [transcripts, setTranscripts] = useState("");
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
-    fetchInfo(word);
+    if (word) {
+      event.preventDefault();
+      fetchInfo(word);
+    } else {
+      fetchInfo(transcript);
+    }
     setWord("");
+    resetTranscript("");
+  };
+
+  let {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
+  useEffect(
+    (event) => {
+      if (transcript !== "" || listening === "off") {
+        setTimeout(() => {
+          return handleSubmit();
+        }, 1000);
+      }
+    },
+    [transcript, listening]
+  );
+
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
+
+  const speak = () => {
+    alert("Listening");
+    if (transcript === "") {
+      return SpeechRecognition.startListening;
+    } else {
+      return SpeechRecognition.stopListening;
+    }
   };
 
   return (
@@ -31,35 +73,70 @@ function Header({ fetchInfo }) {
             className={classes.menuButton}
             color='inherit'
             aria-label='open drawer'
+            onClick={
+              transcript === ""
+                ? SpeechRecognition.startListening
+                : SpeechRecognition.stopListening
+            }
           >
-            <MenuBookIcon />
+            {listening ? <MicIcon /> : <MicOffIcon />}
           </IconButton>
+          {/* <button onClick={resetTranscript}>Reset</button> */}
           <Typography className={classes.title} variant='h6' noWrap>
             Saif Dictionary
           </Typography>
           <form onSubmit={handleSubmit} className={classes.searchContainer}>
             <div className={classes.search}>
-              <InputBase
-                placeholder='Search…'
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-                value={word}
-                onChange={(event) => setWord(event.target.value)}
-                autoCorrect='true'
-              />
+              {transcript ? (
+                <InputBase
+                  placeholder='Search…'
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  name='transcript'
+                  inputProps={{ "aria-label": "search" }}
+                  value={transcript}
+                  onChange={(event) => setTranscripts(event.target.value)}
+                  autoCorrect='true'
+                />
+              ) : (
+                <InputBase
+                  placeholder='Search…'
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  name='transcript'
+                  inputProps={{ "aria-label": "search" }}
+                  value={word}
+                  onChange={(event) => setWord(event.target.value)}
+                  autoCorrect='true'
+                />
+              )}
             </div>
-            <Button
-              disabled={word === "" ? true : false}
-              type='submit'
-              variant='contained'
-              color='secondary'
-              className={classes.btns}
-            >
-              Search
-            </Button>
+
+            {word ? (
+              <Button
+                disabled={word === "" ? true : false}
+                type='submit'
+                variant='contained'
+                color='secondary'
+                className={classes.btns}
+              >
+                Search
+              </Button>
+            ) : (
+              <Button
+                disabled={transcript === "" ? true : false}
+                type='submit'
+                variant='contained'
+                color='secondary'
+                className={classes.btns}
+              >
+                Search
+              </Button>
+            )}
           </form>
         </Toolbar>
       </AppBar>
