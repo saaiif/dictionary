@@ -28,7 +28,10 @@ export const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
     marginLeft: theme.spacing(1),
-    backgroundColor: "rgb(245, 1, 87,0.1)",
+    backgroundColor: "rgb(245, 1, 87,0.3)",
+    "&:hover": {
+      backgroundColor: "rgb(245, 1, 87,0.3)",
+    },
   },
   title: {
     flexGrow: 1,

@@ -23,7 +23,7 @@ const useAudio = (audioProp) => {
     audio.addEventListener("ended", () => {
       setTimeout(() => {
         setPlaying(false);
-      }, 2000);
+      }, 1000);
     });
 
     return () => {

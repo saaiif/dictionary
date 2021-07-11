@@ -27,28 +27,26 @@ function Data({ searchDetails }) {
         style={{
           textAlign: "center",
           marginTop: "10px",
-          padding: "5px 20px",
+          // padding: "5px 20px",
         }}
       >
         <h1 className='title'>
+          {searchDetails.info[0].phonetics[0] && (
+            <Player audioProp={searchDetails.info[0].phonetics[0].audio} />
+          )}
           Meanings For Word{"  "}
           <span className='word'>
             <> "</>
             {searchDetails.info[0].word}
             <>"</>
           </span>
-          <p style={{ margin: "0px 5px" }}>
-            {" "}
-            {searchDetails.info[0].phonetics[0] && (
-              <Player audioProp={searchDetails.info[0].phonetics[0].audio} />
-            )}
-          </p>
+          <p> </p>
         </h1>
       </div>
 
       <div
         style={{
-          padding: "0px 5px 2px 5px",
+          // padding: "0px 5px 2px 5px",
           justifyContent: "center",
           display: "flex",
           alignItems: "center",
@@ -56,7 +54,7 @@ function Data({ searchDetails }) {
       >
         <ol
           style={{
-            padding: "5px 25px",
+            padding: "5px 12px",
           }}
         >
           {searchDetails &&
