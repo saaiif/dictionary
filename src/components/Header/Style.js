@@ -10,6 +10,16 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "rgb(245, 1, 87,0.3)",
       color: "#fff",
     },
+    "& .MuiSnackbarContent-root": {
+      backgroundColor: "rgb(245, 1, 87,1)",
+      color: "#fff",
+    },
+    "& .MuiSnackbar-anchorOriginTopCenter": {
+      top: "65px",
+      [theme.breakpoints.down("sm")]: {
+        top: "57px",
+      },
+    },
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -17,6 +27,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(1),
+    backgroundColor: "rgb(245, 1, 87,0.1)",
   },
   title: {
     flexGrow: 1,

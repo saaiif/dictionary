@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
+import { IconButton } from "@material-ui/core";
+
+import { useStyles } from "../Header/Style";
 
 const useAudio = (audioProp) => {
   const [audio, setAudio] = useState(new Audio(audioProp));
@@ -6,22 +11,19 @@ const useAudio = (audioProp) => {
 
   const toggle = () => setPlaying(!playing);
 
-  console.log(audio.src, "audio");
-  console.log(audioProp, "audioProp");
-  console.log(playing, "playing");
-
   useEffect(() => {
     return playing ? audio.play() : audio.pause();
   }, [playing]);
 
   useEffect(() => {
-    return setAudio(new Audio(audioProp));
+    setAudio(new Audio(audioProp));
   }, [audioProp]);
 
   useEffect(() => {
     audio.addEventListener("ended", () => {
-      setPlaying(false);
-      toggle();
+      setTimeout(() => {
+        setPlaying(false);
+      }, 2000);
     });
 
     return () => {
@@ -37,10 +39,19 @@ const useAudio = (audioProp) => {
 
 const Player = ({ audioProp }) => {
   const [playing, toggle] = useAudio(audioProp);
+  const classes = useStyles();
 
   return (
     <div>
-      <button onClick={toggle}>{playing ? "Pause" : "Play"}</button>
+      <IconButton
+        edge='start'
+        className={classes.menuButton}
+        color='inherit'
+        aria-label='open drawer'
+        onClick={toggle}
+      >
+        {!playing ? <VolumeOffIcon /> : <VolumeUpIcon />}
+      </IconButton>
     </div>
   );
 };

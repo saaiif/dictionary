@@ -4,7 +4,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import MenuBookIcon from "@material-ui/icons/MenuBook";
 import { connect } from "react-redux";
 import SpeechRecognition, {
   useSpeechRecognition,
@@ -15,7 +14,8 @@ import MicOffIcon from "@material-ui/icons/MicOff";
 import { useStyles } from "./Style";
 import { fetchInfo } from "../../Redux/actionTypes";
 import { Button } from "@material-ui/core";
-import Dictaphone from "./Voice";
+import SimplePopover from "./PopOver";
+import DirectionSnackbar from "./PopOver";
 
 function Header({ fetchInfo }) {
   const classes = useStyles();
@@ -55,15 +55,6 @@ function Header({ fetchInfo }) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
 
-  const speak = () => {
-    alert("Listening");
-    if (transcript === "") {
-      return SpeechRecognition.startListening;
-    } else {
-      return SpeechRecognition.stopListening;
-    }
-  };
-
   return (
     <div className={classes.root}>
       <AppBar position='static'>
@@ -85,6 +76,7 @@ function Header({ fetchInfo }) {
           <Typography className={classes.title} variant='h6' noWrap>
             Saif Dictionary
           </Typography>
+          <DirectionSnackbar listening={listening} />
           <form onSubmit={handleSubmit} className={classes.searchContainer}>
             <div className={classes.search}>
               {transcript ? (

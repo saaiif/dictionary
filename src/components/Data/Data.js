@@ -31,15 +31,18 @@ function Data({ searchDetails }) {
         }}
       >
         <h1 className='title'>
-          Meanings For Word{" "}
+          Meanings For Word{"  "}
           <span className='word'>
+            <> "</>
+            {searchDetails.info[0].word}
             <>"</>
-            {searchDetails.info[0].word}{" "}
+          </span>
+          <p style={{ margin: "0px 5px" }}>
+            {" "}
             {searchDetails.info[0].phonetics[0] && (
               <Player audioProp={searchDetails.info[0].phonetics[0].audio} />
             )}
-            <>"</>
-          </span>
+          </p>
         </h1>
       </div>
 

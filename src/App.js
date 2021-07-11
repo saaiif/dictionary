@@ -8,7 +8,7 @@ function App() {
     <div className='App'>
       <div className='wrapper'>
         <Header />
-        <Data />
+        <Data />  
       </div>
       <footer>
         <p>&copy; Saif Mujawar {new Date().getFullYear()} </p>
