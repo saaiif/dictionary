@@ -5,6 +5,7 @@ import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useStyles } from "../Header/Style";
 import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
+import Player from "./Player";
 
 function Data({ searchDetails }) {
   const classes = useStyles();
@@ -17,7 +18,7 @@ function Data({ searchDetails }) {
     </h2>
   ) : searchDetails.error ? (
     <div className='errorMessage'>
-      <SentimentVeryDissatisfiedIcon style={{ fontSize: "85px" }} />
+      <SentimentVeryDissatisfiedIcon style={{ fontSize: "60px" }} />
       <h1>{searchDetails.error} Please search any other word above 👆</h1>
     </div>
   ) : searchDetails && searchDetails.info.length > 0 ? (
@@ -26,15 +27,22 @@ function Data({ searchDetails }) {
         style={{
           textAlign: "center",
           marginTop: "10px",
+          padding: "5px 20px",
         }}
       >
         <h1 className='title'>
-          Meanings For Word{" "}
+          Meanings For Word{"  "}
           <span className='word'>
-            <>"</>
+            <> "</>
             {searchDetails.info[0].word}
             <>"</>
           </span>
+          <p style={{ margin: "0px 5px" }}>
+            {" "}
+            {searchDetails.info[0].phonetics[0] && (
+              <Player audioProp={searchDetails.info[0].phonetics[0].audio} />
+            )}
+          </p>
         </h1>
       </div>
 
@@ -46,7 +54,11 @@ function Data({ searchDetails }) {
           alignItems: "center",
         }}
       >
-        <ol>
+        <ol
+          style={{
+            padding: "5px 25px",
+          }}
+        >
           {searchDetails &&
             searchDetails.info.length > 0 &&
             searchDetails.info.map((el) =>

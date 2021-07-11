@@ -18,7 +18,7 @@
 }
 .errorMessage {
   font-family: "Pacifico", cursive;
-  font-size: 16px;
+  font-size: 14px;
   justify-content: center;
   display: flex;
   align-items: center;
@@ -31,6 +31,11 @@
   color: rgb(245 0 87);
   font-family: "Pacifico", cursive;
 }
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media (max-width: 450px) {
   .title {
@@ -41,6 +46,7 @@
   color: rgb(245 0 87);
   text-transform: capitalize;
   font-family: "Pacifico", cursive;
+  padding-left: 2px;
 }
 .chip {
   font-family: "Dancing Script", cursive !important;
